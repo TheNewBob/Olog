@@ -19,6 +19,42 @@ Olog::~Olog()
 {
 }
 
+void Olog::setLogLevelFromFile(FILEHANDLE file)
+{
+	char fileloglevel[6];
+	bool logleveldefined = oapiReadItem_string(file, "OLOGLEVEL", fileloglevel);
+	if (logleveldefined)
+	{
+		for (int i = 0; i < strlen(fileloglevel); ++i)
+			fileloglevel[i] = tolower(fileloglevel[i]);
+
+		if (_strnicmp("trace", fileloglevel, 5) == 0) {
+			info("Setting log level 'TRACE' from cfg file");
+			loglevel = OLOG_TRACE;
+		}
+		else if (_strnicmp("debug", fileloglevel, 5) == 0) {
+			info("Setting log level 'DEBUG' from cfg file");
+			loglevel = OLOG_DEBUG;
+		}
+		else if (_strnicmp("info", fileloglevel, 4) == 0) {
+			info("Setting log level 'INFO' from cfg file");
+			loglevel = OLOG_INFO;
+		}
+		else if (_strnicmp("warn", fileloglevel, 4) == 0) {
+			info("Setting log level 'WARN' from cfg file");
+			loglevel = OLOG_WARN;
+		}
+		else if (_strnicmp("error", fileloglevel, 5) == 0) {
+			info("Setting log level 'DEBUG' from cfg file");
+			loglevel = OLOG_ERROR;
+		}
+		else
+		{
+			error("Unknown log level in cfg file: %s", projectName, fileloglevel);
+		}
+	}
+}
+
 void Olog::trace(char* message, ...)
 {
 	if (OLOG_TRACE >= loglevel)

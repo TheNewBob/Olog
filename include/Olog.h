@@ -19,6 +19,8 @@ public:
 	static OLOGLEVEL loglevel;
 	static OLOGLEVEL assertlevel;
 
+	static void setLogLevelFromFile(FILEHANDLE file);
+
 	static char* projectName;
 
 	static void trace(char *message, ...);
