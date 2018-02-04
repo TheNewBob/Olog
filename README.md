@@ -23,7 +23,7 @@ Admittedly, you probably don't. However, if you happen to work on a big project 
 
 ## Okay, how do I use it?
 
-Add Olog/include to your include libraries, and either add the .cpp file directly to your project, or use the provided libs for debug and release build.
+Add Olog/include to your include folders, and either add the .cpp file directly to your project, or use the provided libs for debug and release build.
 Here's a short example of how to use it.   
 Usually you'd just set your defaults in your initModule callback, and do the logging wherever you need it, obviously:
 
@@ -43,12 +43,12 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 	Olog::debug(testmessage, 2, "nd");
 	Olog::info(testmessage, 3, "rd");
 	Olog::warn(testmessage, 4, "th");
-	Olog::error(testmessage, 5, "th");
+	Olog::error(testmessage, 5, "th");	//This will just log an error, but not throw anything.
 	
     //use a lambda to pass predicates to your asserts:    
 	int a = 1;
 	int b = 2;
-	Olog::assertThat([&]() { return a > b; }, testmessage, 6, "th");  //this will terminate the simulation with a runtime exception, since it's false, and our current assert level is equal to our log level. If we'd raise the log level to info, this would not be evaluated.
+	Olog::assertThat([&]() { return a > b; }, testmessage, 6, "th");  //this will log the passed message and terminate the simulation with a runtime exception, since it's false, and our current assert level is equal to our log level. If we'd raise the log level to info, this would not be evaluated.
 }
 ```
 
@@ -65,7 +65,7 @@ The above example will produce the following output in orbiter.log:
 To allow setting the loglevel from your vessels cfg file, use this:
 
 ```
-void IMS2::clbkSetClassCaps (FILEHANDLE cfg) 
+void MyClass::clbkSetClassCaps (FILEHANDLE cfg) 
 {
 	Olog::setLogLevelFromFile(cfg);
     // proceed to load your vessel data
@@ -76,7 +76,7 @@ If no log level is defined in the cfg, this won't do anything. But anyone can no
 ```
 OLOGLEVEL = Debug
 ```  
-to the vessels cfg file to override the defualt log level and get more detailed log output, or set it higher and not be bothered by any performance loss that the potentially noisy logging at lower levels may incur.
+to the vessels cfg file to override the default log level and get more detailed log output, or set it higher and not be bothered by any performance loss that the potentially noisy logging at lower levels may incur.
 
 
  
