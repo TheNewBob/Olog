@@ -1,5 +1,8 @@
 \debug
 \release
+\.vs
+*.pdb
+*.idb
 Olog.v12.suo
 Olog.opensdf
 Olog.sdf
